@@ -19,3 +19,10 @@ definidos en la Semana 2 y las evidencias técnicas del repositorio (código, PR
 > Nota: Las evidencias técnicas corresponden a incrementos funcionales del MVP
 > implementados mediante ramas y Pull Requests, siguiendo el flujo de trabajo
 > definido para la Semana 3.
+
+## Pull Requests previstos 
+
+- PR Alta básica de envío (feature/alta-envio)
+- PR Cambio de estado e historial (feature/cambio-estado)
+- PR Prototipo de prioridad con ML (ml/prototipo-prioridad)
+``
