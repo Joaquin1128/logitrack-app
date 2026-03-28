@@ -1,4 +1,3 @@
-/* ── Reset ── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -13,7 +12,6 @@ body {
   font-size: 15px;
 }
 
-/* ── Layout ── */
 .container {
   max-width: 1100px;
   margin: 0 auto;
@@ -33,7 +31,6 @@ body {
   color: #f0f0f0;
 }
 
-/* ── Card ── */
 .card {
   background: #424242;
   border: 1px solid #555;
@@ -41,7 +38,6 @@ body {
   padding: 24px;
 }
 
-/* ── Toolbar ── */
 .toolbar {
   display: flex;
   align-items: center;
@@ -65,7 +61,6 @@ body {
   background: #3f3f3f;
 }
 
-/* ── Buttons ── */
 .btn {
   padding: 10px 10px;
   border-radius: 3px;
@@ -98,7 +93,6 @@ body {
   background-color: #666;
 }
 
-/* Small action buttons inside table */
 .btn-sm {
   padding: 10px 10px;
   font-size: 14px;
@@ -173,7 +167,6 @@ code {
   color: #ccc;
 }
 
-/* ── Badges de estado ── */
 .badge {
   display: inline-block;
   padding: 3px 9px;
@@ -254,7 +247,6 @@ textarea {
   resize: vertical;
 }
 
-/* ── Detalle (solo lectura) ── */
 .detalle-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -291,7 +283,6 @@ textarea {
   margin-bottom: 14px;
 }
 
-/* ── Modal ── */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -331,7 +322,6 @@ textarea {
   margin-top: 6px;
 }
 
-/* ── Mensajes de error ── */
 .error-msg {
   color: #f87171;
   font-size: 13px;
