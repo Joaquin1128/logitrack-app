@@ -1,5 +1,8 @@
 package com.logitrack.back.app.controller;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +16,7 @@ import com.logitrack.back.app.service.EnvioService;
 
 @RestController
 @RequestMapping("/envios")
+@CrossOrigin(origins = "*")
 public class EnvioController {
 
     private final EnvioService envioService;
@@ -37,22 +41,32 @@ public class EnvioController {
 
     @PostMapping
     public ResponseEntity<Envio> crear(@RequestBody Map<String, String> body) {
-        String destinatario = body.get("destinatario");
-        Envio nuevo = envioService.crear(destinatario);
-        
+        Envio nuevo = envioService.crear(body);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizar(@PathVariable String id, @RequestBody Map<String, String> body) {
+        try {
+            return ResponseEntity.ok(envioService.actualizar(id, body));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
+        }
     }
 
     @PutMapping("/{id}/estado")
     public ResponseEntity<?> cambiarEstado(@PathVariable String id, @RequestBody Map<String, String> body) {
         try {
             EstadoEnvio nuevoEstado = EstadoEnvio.valueOf(body.get("estado"));
-            return ResponseEntity.ok(envioService.cambiarEstado(id, nuevoEstado));
+            String fecha   = body.getOrDefault("fecha",   LocalDate.now().toString());
+            String hora    = body.getOrDefault("hora",    LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
+            String usuario = body.getOrDefault("usuario", "sistema");
+            return ResponseEntity.ok(envioService.cambiarEstado(id, nuevoEstado, fecha, hora, usuario));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage()));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
         }
     }
-
+    
 }
