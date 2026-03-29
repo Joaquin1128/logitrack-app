@@ -84,7 +84,6 @@ function DetalleEnvio() {
         <h1>Detalle del envío</h1>
       </div>
 
-      {/* Datos principales */}
       <div className="card">
         <div className="detalle-grid">
           <div className="detalle-item">
@@ -136,7 +135,6 @@ function DetalleEnvio() {
 
       </div>
 
-      {/* Historial */}
       <div className="card" style={{ marginTop: '16px' }}>
         <h2 className="section-title">Historial de estados</h2>
         {envio.historial && envio.historial.length > 0 ? (
@@ -165,7 +163,6 @@ function DetalleEnvio() {
         )}
       </div>
 
-      {/* Modal actualizar estado */}
       {modalAbierto && (
         <div className="modal-overlay" onClick={() => setModalAbierto(false)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
