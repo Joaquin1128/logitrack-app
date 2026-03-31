@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   backend:
     name: Backend — Build & Test
@@ -52,3 +55,27 @@ jobs:
       - name: Build
         working-directory: src/logitrack-front/logitrack-front
         run: npm run build
+
+  ml:
+    name: ML - Python Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+
+      - name: Install dependencies
+        working-directory: src/logitrack-ml
+        run: pip install -r requirements.txt
+
+      - name: Generate dataset
+        working-directory: src/logitrack-ml
+        run: python generate_dataset.py
+
+      - name: Train model
+        working-directory: src/logitrack-ml
+        run: python train_model.py
