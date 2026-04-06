@@ -12,7 +12,7 @@ Se valora todo tipo de contribuciones. Y si te gusta el proyecto, pero no cuenta
 
 - [Código de conducta](#código-de-conducta)
 - [Tengo una pregunta](#tengo-una-pregunta)
-- [Informar sobre errores](informar-sobre-errores)
+- [Informar sobre errores](#informar-sobre-errores)
 
 ## Código de conducta
 
