@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getEnvio, updateEstado } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 const ORDEN_ESTADOS = ['CREADO', 'EN_TRANSITO', 'EN_SUCURSAL', 'ENTREGADO'];
 
@@ -20,10 +21,11 @@ function ahora() {
 function DetalleEnvio() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [envio, setEnvio] = useState(null);
   const [error, setError] = useState('');
   const [modalAbierto, setModalAbierto] = useState(false);
-  const [modalForm, setModalForm] = useState({ nuevoEstado: '', fecha: '', hora: '', usuario: 'admin' });
+  const [modalForm, setModalForm] = useState({ nuevoEstado: '', fecha: '', hora: '', usuario: '' });
   const [modalError, setModalError] = useState('');
 
   useEffect(() => {
@@ -32,10 +34,10 @@ function DetalleEnvio() {
         setEnvio(data);
         const sig = siguienteEstado(data.estado);
         const { fecha, hora } = ahora();
-        setModalForm({ nuevoEstado: sig || '', fecha, hora, usuario: 'admin' });
+        setModalForm({ nuevoEstado: sig || '', fecha, hora, usuario: user?.username || '' });
       })
       .catch(() => setError('Envío no encontrado.'));
-  }, [id]);
+  }, [id, user?.username]);
 
   const abrirModal = () => {
     const { fecha, hora } = ahora();
@@ -43,7 +45,7 @@ function DetalleEnvio() {
       nuevoEstado: siguienteEstado(envio.estado) || '',
       fecha,
       hora,
-      usuario: 'admin',
+      usuario: user?.username || '',
     });
     setModalError('');
     setModalAbierto(true);
@@ -132,7 +134,6 @@ function DetalleEnvio() {
             </div>
           )}
         </div>
-
       </div>
 
       <div className="card" style={{ marginTop: '16px' }}>
@@ -203,10 +204,7 @@ function DetalleEnvio() {
 
             <div className="form-group">
               <label>Usuario</label>
-              <input
-                value={modalForm.usuario}
-                onChange={e => setModalForm({ ...modalForm, usuario: e.target.value })}
-              />
+              <input value={modalForm.usuario} disabled />
             </div>
 
             {modalError && <p className="error-msg">{modalError}</p>}

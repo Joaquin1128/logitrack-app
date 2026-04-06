@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getEnvios } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 function Home() {
   const [envios, setEnvios] = useState([]);
   const [busqueda, setBusqueda] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const esSupervisor = user?.role === 'SUPERVISOR';
 
   useEffect(() => {
     getEnvios()
@@ -22,7 +25,7 @@ function Home() {
   return (
     <div className="container">
       <div className="page-header">
-        <h1>LogiTrackApp</h1>
+        <h1>Envíos</h1>
       </div>
 
       <div className="card">
@@ -34,9 +37,11 @@ function Home() {
             value={busqueda}
             onChange={e => setBusqueda(e.target.value)}
           />
-          <button className="btn btn-primary" onClick={() => navigate('/nuevo')}>
-            NUEVO
-          </button>
+          {esSupervisor && (
+            <button className="btn btn-primary" onClick={() => navigate('/nuevo')}>
+              NUEVO
+            </button>
+          )}
         </div>
 
         {error && <p className="error-msg">{error}</p>}
@@ -76,12 +81,14 @@ function Home() {
                     >
                       DETALLE
                     </button>
-                    <button
-                      className="btn btn-sm btn-outline"
-                      onClick={() => navigate(`/editar/${e.id}`)}
-                    >
-                      EDITAR
-                    </button>
+                    {esSupervisor && (
+                      <button
+                        className="btn btn-sm btn-outline"
+                        onClick={() => navigate(`/editar/${e.id}`)}
+                      >
+                        EDITAR
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))
